@@ -1,0 +1,165 @@
+/* Arshad site draft 1 (dark): overrides on top of the Site Lab styles.
+   Decisions: brainstorms/2026-10-09-arshad-final-site.md (Q5 content, Q6/Q7 type and one product style). */
+
+/* ---------- one product page style: the homepage's own look ---------- */
+.hp .pp[data-style="site"]{--r:var(--Sr);--disp:var(--SfH);--dispw:var(--ShW);--disps:100%;--dispt:none;--body:var(--SfB)}
+
+/* ---------- type: Montserrat headings, Inter text, IBM Plex Mono for data (figures, specs, small labels) ---------- */
+.hp .pp :is(.p-spec td,.p-spec th,table.cmp td,table.cmp th,.p-fig b,.au-nums b,.p-kick,.p-chip,.p-cap,.p-note .num),
+.hp :is(.num b,.ms .yr,.kf b,.p-figs b,.chap .step .yr,.tl .yr,.tag,.p-mini .k){font-family:var(--SfM,var(--fM));font-stretch:100%;letter-spacing:0}
+.hp .pp :is(.p-spec td,table.cmp td){font-variant-numeric:tabular-nums}
+.hp :is(.num b,.p-fig b,.au-nums b,.kf b){font-weight:600;letter-spacing:-.02em}
+
+/* ---------- lab notes on pictures ("real photo", "drawn visual", "photos from ...") are not for visitors ---------- */
+#site .lbl{display:none}
+
+/* ---------- visitor helpers ---------- */
+/* "pick up where you left off" sits at the bottom, clear of the floating header */
+.resume{top:auto;bottom:calc(16px + env(safe-area-inset-bottom,0px));font:500 14px/1.3 var(--fB,"Inter",sans-serif);max-width:calc(100vw - 32px)}
+/* 3D model debugging control ("show generated faces") is not for visitors */
+.hp .pp [data-gen]{display:none}
+
+/* ---------- headings ---------- */
+/* the "headline lines" effect wraps each word in a span: section rules for small text spans (e.g. .thow span) must not shrink them */
+.hp :is(h1,h2,h3) :is(.ln,.ln>span){font-size:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit}
+/* no editorial drop cap in the shared style */
+.hp .pp .au-prose p:first-child::first-letter{float:none;font:inherit;padding:0}
+
+/* ---------- contrast on the dark look ---------- */
+/* product pages remap --brand to the light brand text colour: site buttons inside them keep the real brand fill */
+.hp .pp .btnp{background:var(--Sbrand);color:var(--SbrandInk)}
+.hp .pp .btnp:hover{background:var(--SbrandD)}
+/* accent-coloured text uses the light brand text colour, not the dark olive fill */
+.hp .pp :is(.fm-card .fit,.fm-form b,.wv-parts td:first-child){color:var(--SbrandTx)}
+
+/* ---------- readable sizes: nothing under 12px ---------- */
+.hp :is(.tag,.door .brand,.prevnext small,.det .ln small,.fm-card .fit,.bz-ladder button span){font-size:12px}
+.hp .pp .p-copy{font-size:12.5px}
+
+/* ---------- line length ---------- */
+.hp .pp :is(.p-sub,.p-note,.p-lede,.p-kick),.hp :is(.lead,details p,.faqs details p,.faqx p){max-width:68ch}
+.hp .pp .p-note:empty{display:none}
+
+/* ---------- product page stages ---------- */
+/* a stage in the template hero fills its box (the 3D objects stage brought its own height and margin and was cut off) */
+.hp .thero .vis>.p-stage{height:auto;margin:0}
+/* the 3D objects stage takes the same dark ground as every other stage */
+.hp .pp[data-style="site"] .ob-stage{background:#121810}
+/* pressed buttons: light fill, dark text (the colour remap had set the text to the fill colour) */
+.hp .pp[data-orig="0"] .p-btn[aria-pressed="true"]{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+
+/* small labels that sit in more specific rules */
+.hp .doors .door .brand,.hp .ind-b .brand,.hp .faqs .fb,.hp .faqx .fb{font-size:12px!important}
+
+/* ---------- one spacing scale for every page (item 5) ---------- */
+/* --sp: space between sections; --sp-h: heading block to its content */
+.hp{--sp:clamp(56px,8cqi,104px);--sp-h:clamp(22px,3cqi,36px)}
+.hp .pp{--tp:var(--sp)}
+/* page sections outside the homepage: same rhythm as product page sections; the page's first section sits under the header */
+#site main :is(.psec,.tsec):not(.slot *){padding-block:var(--sp) 0}
+#site main .pgwrap>:is(.psec,.pp>.tsec):first-child,#site main .pgwrap>.pp>:is(.tsec,.p-sec,.p-mini+.tsec):first-of-type{padding-top:clamp(16px,2.5cqi,32px)}
+#site main .pgwrap>:is(.psec,.pp):last-of-type{padding-bottom:var(--sp)}
+#site main .pp>.p-sec:not(.slot *){padding-block:var(--sp) 0}
+.hp :is(.psec,.tsec,.sec)>.wrap>.sh{margin-bottom:var(--sp-h)}
+/* homepage panels over the endless background: closer together, so the page reads as one story */
+.hp[data-bg]:not([data-bg="off"]) .sec{padding-block:clamp(36px,7cqi,88px)}
+.hp[data-bg]:not([data-bg="off"]) .sec.hero{padding-block:clamp(80px,9cqi,120px) clamp(36px,7cqi,88px)}
+
+/* ---------- site photos (item 4): centred, scaled to fit their box, never cropped or spilling out ---------- */
+.hp .mvsite{display:flex;align-items:center;justify-content:center;padding:clamp(16px,6%,40px) clamp(16px,7%,56px);box-sizing:border-box}
+.hp .mvsite:has(.mvs-th){padding-bottom:72px}
+.hp .mvsite .mvs-p{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;margin:0}
+.hp .mvsite .mvs-th{right:50%;transform:translateX(50%);bottom:12px}
+/* Simco-Ion product cards: the whole system / bar photo, centred on a dark ground */
+.hp .pp .io-apps .p-card>img.sitepic{object-fit:contain!important;object-position:center!important;background:#0d0f0b;box-sizing:border-box;width:100%;height:auto!important;aspect-ratio:4/3;max-height:340px}
+
+/* ---------- small screens ---------- */
+/* the section rail sits on the content edge on phones: hide it there (the progress line still shows position) */
+@media (max-width:760px){ #ovl .o-rail{display:none} .resume{bottom:calc(76px + env(safe-area-inset-bottom,0px))} }
+
+/* ---------- readable text over photos ---------- */
+/* film hero: the discharge line ran through the intro text; a scrim behind the text block keeps it readable */
+.hp .pp .fm-hero .txt::before{content:'';position:absolute;z-index:-1;left:-100vw;right:-100vw;top:-48px;bottom:0;background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 94%,transparent) 0%,color-mix(in srgb,var(--bg) 82%,transparent) 62%,transparent 100%)}
+.hp .pp .fm-hero .txt :is(.p-lede,.p-note){text-shadow:0 1px 12px rgba(0,0,0,.6)}
+
+/* ===== round 2 (9 Oct 2026) ===== */
+/* ---------- homepage expanding panels: smoother opening, staged text, a slow auto-cycle with a progress line ---------- */
+.hp .doors[data-v="c"] .door{transition:flex 1s cubic-bezier(.22,1,.36,1),transform .35s}
+.hp .doors[data-v="c"] .door .vis canvas{transform:scale(1.1);filter:brightness(.62) saturate(.7);transition:transform 1.4s cubic-bezier(.22,1,.36,1),filter .9s ease}
+.hp .doors[data-v="c"] .door:hover:not(.open) .vis canvas{filter:brightness(.8) saturate(.85)}
+.hp .doors[data-v="c"] .door.open .vis canvas{transform:none;filter:none}
+/* a soft light sweeps across the panel as it opens */
+.hp .doors[data-v="c"] .door .vis::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.09) 50%,transparent 65%);transform:translateX(-120%)}
+.hp .doors[data-v="c"] .door.open .vis::before{animation:drSheen 1.5s .15s cubic-bezier(.22,1,.36,1) both}
+@keyframes drSheen{to{transform:translateX(120%)}}
+/* the opened panel's text rises in, one line after another, once the panel has room */
+.hp .doors[data-v="c"] .door.open .bd>:is(p,.subs,.clayer,.peek){animation:drRise .8s cubic-bezier(.22,1,.36,1) both}
+.hp .doors[data-v="c"] .door.open .bd>p{animation-delay:.32s}
+.hp .doors[data-v="c"] .door.open .bd>.subs{animation-delay:.4s}
+.hp .doors[data-v="c"] .door.open .bd>.clayer{animation-delay:.48s}
+.hp .doors[data-v="c"] .door.open .bd>.peek{animation-delay:.56s}
+@keyframes drRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hp .doors[data-v="c"] .door .bd>h3{transition:font-size .6s cubic-bezier(.22,1,.36,1)}
+.hp .doors[data-v="c"] .door .acbar{transition:width .7s cubic-bezier(.22,1,.36,1)}
+.hp .doors[data-v="c"] .door:not(.open) .acbar{width:18px}
+.hp .doors[data-v="c"] .door .go .arrow{display:inline-block;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.hp .doors[data-v="c"] .door:hover .go .arrow{transform:translateX(4px)}
+.hp .doors[data-v="c"] .door .dbar{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:3;pointer-events:none;background:var(--brandTx,#C9D5A2);opacity:.8;transform:scaleX(0);transform-origin:left}
+.hp .doors[data-v="c"].cycling .door.open .dbar{animation:drBar 5.2s linear both}
+@keyframes drBar{to{transform:scaleX(1)}}
+.hp[data-motion="off"] .doors[data-v="c"] :is(.door,.door *,.door .vis::before){animation:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){ .hp .doors[data-v="c"] :is(.door,.door *,.door .vis::before){animation:none!important;transition:none!important} }
+
+/* ---------- homepage story chapters: a second paragraph, and the motto as a quote ---------- */
+.hp .chap .step .more{margin:2px 0 0;max-width:60ch;font-size:16px;line-height:1.65;color:var(--mut)}
+.hp .chap .step .more.q{font:italic 500 clamp(17px,1.6cqi,20px)/1.5 var(--fH,inherit);color:var(--ink);padding-left:16px;border-left:3px solid var(--brandTx)}
+
+/* ---------- blown / cast film: the dyne pen ---------- */
+.hp .pp .fm-pen canvas{width:100%;height:clamp(220px,26cqi,320px);display:block;border-radius:var(--r);border:1px solid var(--line);cursor:crosshair;touch-action:pan-y}
+/* closed panels are narrow: a smaller heading so long words ("Eliminators") fit; it grows as the panel opens */
+.hp .doors[data-v="c"] .door:not(.open) .bd>h3{font-size:clamp(17px,1.5cqi,21px)}
+
+/* ===== round 3 (9 Oct 2026) ===== */
+/* ---------- homepage expanding panels, smoother still: the panel widens slowly and evenly (ease in and out) and reveals
+   a photo and a text block that already have their open size; nothing inside resizes or rewraps while it moves ---------- */
+@container hp (min-width:761px){
+  /* the row's width never depends on what is inside it (the open-size text block would otherwise widen it) */
+  .hp .doors[data-v="c"]{contain:inline-size;width:100%}
+  /* (#site: the site-wide hover-lift rule, #site[data-hover="lift"] .door, otherwise replaces this list, and the width would jump) */
+  #site .doors[data-v="c"] .door{transition:flex 1.2s cubic-bezier(.45,0,.15,1),transform .35s,box-shadow .35s}
+  .hp .doors[data-v="c"] .door .vis{left:50%;right:auto;width:var(--ow,100%);transform:translateX(-50%)}
+  .hp .doors[data-v="c"] .door .vis canvas{transition:transform 1.6s cubic-bezier(.45,0,.15,1),filter 1.1s ease}
+  .hp .doors[data-v="c"] .door .bd{width:var(--ow,auto);max-width:none;box-sizing:border-box;flex:none;opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .hp .doors[data-v="c"] .door.open .bd{opacity:1;pointer-events:auto;transition:opacity .7s ease .4s}
+  .hp .doors[data-v="c"] .door.open .bd>p{animation-delay:.5s}
+  .hp .doors[data-v="c"] .door.open .bd>.subs{animation-delay:.6s}
+  .hp .doors[data-v="c"] .door.open .bd>.clayer{animation-delay:.7s}
+  .hp .doors[data-v="c"] .door.open .bd>.peek{animation-delay:.8s}
+  .hp .doors[data-v="c"] .door.open .bd>:is(p,.subs,.clayer,.peek){animation-duration:1s}
+  .hp .doors[data-v="c"] .dlab{position:absolute;left:0;bottom:0;z-index:2;width:var(--cw,100%);box-sizing:border-box;padding:16px 16px 18px;display:grid;gap:8px;pointer-events:none;color:#EEF0E6;--mut:#C3C9B5;--brandTx:#DCE5BD;opacity:1;transition:opacity .5s ease .55s}
+  /* the closed label reads up the panel, so a title of any length and language fits the narrow panel */
+  .hp .doors[data-v="c"] .dlab{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+  .hp .doors[data-v="c"] .dlab h3{order:-1;writing-mode:vertical-rl;transform:rotate(180deg);max-height:min(360px,62cqi);font-size:clamp(18px,1.6cqi,22px);line-height:1.12;margin:0}
+  .hp .doors[data-v="c"] .dlab .go{margin:0;padding:0;font-size:18px}
+  .hp .doors[data-v="c"] .door.open .dlab{opacity:0;transition:opacity .2s ease}
+}
+@container hp (max-width:760px){ .hp .doors[data-v="c"] .dlab{display:none} #site .doors[data-v="c"] .door{transition:flex .9s cubic-bezier(.45,0,.15,1),min-height .9s cubic-bezier(.45,0,.15,1),transform .35s,box-shadow .35s} }
+
+/* ---------- language switcher: three small flags with their codes, top right of the header ---------- */
+.hp .shdr .bar .langs{display:flex;align-items:center;gap:2px;margin-left:10px;flex:none;order:9}
+.hp .shdr .langs button{display:grid;justify-items:center;gap:3px;padding:5px 5px 4px;min-width:34px;border:1px solid transparent;border-radius:9px;background:none;color:var(--mut);font:600 12px/1 var(--SfM,var(--fM));letter-spacing:.04em;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.hp .shdr .langs .flag{display:block;width:22px;height:15px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+.hp .shdr .langs .flag svg{display:block;width:100%;height:100%}
+.hp .shdr .langs button:hover{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
+.hp .shdr .langs button[aria-pressed="true"]{border-color:color-mix(in srgb,var(--brandTx) 60%,transparent);color:var(--ink);background:color-mix(in srgb,var(--brandTx) 12%,transparent)}
+.hp .shdr .langs button:focus-visible{outline:2px solid var(--brandTx);outline-offset:1px}
+@container hp (max-width:420px){ .hp .shdr .langs{margin-left:4px;gap:0} .hp .shdr .langs button{min-width:30px;padding:4px 3px 3px} .hp .shdr .langs .flag{width:20px;height:14px} }
+/* the header pill has room for the longer Spanish and Russian menus next to the flags */
+.hp .shdr[data-v="b"] .bar{max-width:min(1180px,calc(100% - 24px))}
+/* phones: a slightly smaller logo, flags and Menu button, so all three flags fit beside the menu */
+@container hp (max-width:420px){
+  .hp .shdr .bar{column-gap:8px}
+  .hp .shdr .logo .logoimg{width:118px;height:24px}
+  .hp .shdr .burger{padding-inline:10px}
+  .hp .shdr .langs button{min-width:28px;padding:4px 2px 3px}
+}
